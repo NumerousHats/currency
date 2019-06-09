@@ -1,0 +1,83 @@
+---
+title: "Basic usage of the currency package"
+author: "Michael Andrec"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Basic usage of the currency package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Generating a `currency` object
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+require(currency)
+```
+
+
+```{r}
+as.currency(20)
+
+as.currency(200000000)
+
+as.currency(200000000, type="JPY")
+```
+
+## Arithmetic operations
+
+The `currency` class inherits from the base R `numeric` class, so all of the standard arithmetic operations work as expected. The result is either of class `currency` or `numeric`, depending on what makes sense based on [dimensional analysis](https://en.wikipedia.org/wiki/Dimensional_analysis): if the result has a meaningful currency unit under the assumption that any `numeric` participating in a binary arithmetic operation is dimensionless, then the result will be `currency`, otherwise it will be `numeric`. 
+
+```{r}
+twenty <- as.currency(20)
+thirty <- as.currency(30)
+
+twenty + thirty
+
+twenty/0.001
+
+10/twenty # numeric, would have units of "per dollar"
+
+2*twenty
+
+twenty*thirty # numeric, would have units of "dollar^2"
+
+log10(thirty)
+
+sqrt(twenty)
+
+mean(c(twenty, thirty)) # what should this be?
+
+```
+
+## Original currency values
+
+The `currency` object extends the `numeric` class with two additional slots that store the original, uncoverted currency value and the original currency type.
+
+```{r}
+yen <- as.currency(200, type="JPY")
+
+yen
+
+format(yen, original=TRUE)
+```
+
+For the results of an arithmetic operations that return `currency`, the original values are set appropriately if it makes sense to do so.
+
+```{r}
+format(twenty + thirty, original=TRUE) # OK
+
+format(twenty + yen, original=TRUE) # NO
+
+format(2*yen, original=TRUE) # OK
+
+format(yen/0.001, original=TRUE) # OK
+```

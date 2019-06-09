@@ -1,0 +1,16 @@
+Package: currency
+Type: Package
+Title: Convert, manipulate, and report monetary values
+Version: 0.1.0
+Authors@R: c(person("Rees", "Morrison", email = "rees@reesmorrison.com", role = c("aut")),
+    person("Michael", "Andrec", email = "MAndrecPhD@gmail.com", role = c("aut", "cre")))
+Description: Tools to convert, do arithmetic, and provide formatted
+    display of monetary values in multiple currencies.
+License: MIT
+Depends:
+    R (>= 3.4.0),
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+Suggests: 
+    testthat
