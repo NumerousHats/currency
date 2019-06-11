@@ -65,7 +65,14 @@ test_that("operations", {
 
 test_that("math", {
   a <- as.currency(10)
-  b <- as.currency(20)
+  b <- as.currency(-20)
 
   expect_equal(sqrt(a), sqrt(10))
+
+  absb <- abs(b)
+  expect_s4_class(absb, "Currency")
+  expect_equal(absb@.Data, 20)
+  expect_equal(absb@original, 20)
+  expect_equal(max(c(a, b)), a)
+  expect_equal(min(c(a, b)), b)
 })

@@ -2,15 +2,63 @@
 NULL
 
 #
-# Methods for math functions on Currency objects.
+# Methods for math and summary functions on Currency objects.
 #
-# Apart from a few exceptions, math functions operating on Currency objects should
+# By default, math functions operating on Currency objects should
 # return "numeric" type.
 #
 
 #' @export
-# setMethod("Math", signature(e1 = "Currency"),
-#           function(e1) {
-#             callGeneric(e1@.Data)
-#           })
+setMethod("Math", signature = "Currency",
+          function(x) {
+            callGeneric(x@.Data)
+          })
 
+
+# The exceptions:
+
+#' @export
+setMethod("abs", signature = "Currency",
+          function(x) {
+            x@.Data <- abs(x@.Data)
+            x@original <- abs(x@original)
+            x
+          })
+
+#' @export
+setMethod("max", signature = "Currency",
+          function(x) {
+            vals <- as.numeric(x)
+            x[which.max(vals)]
+          })
+
+#' @export
+setMethod("min", signature = "Currency",
+          function(x) {
+            vals <- as.numeric(x)
+            x[which.min(vals)]
+          })
+
+# range
+
+# sum
+
+# prod
+
+# cumsum
+
+# cumprod
+
+# cummin
+
+# cummin
+
+# ceiling
+
+# floor
+
+# trunc
+
+# round
+
+# signif
